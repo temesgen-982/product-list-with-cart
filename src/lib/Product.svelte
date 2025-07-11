@@ -1,0 +1,53 @@
+<script>
+	let { product, addToCart, cartItem, removeFromCart } = $props();
+
+	// A derived value that's true if the item is in the cart
+	const inCart = $derived(!!cartItem);
+</script>
+
+<div class="flex flex-col justify-center gap-1">
+	<div>
+		<picture>
+			<source media="(min-width: 600px)" srcset={product.image.tablet} />
+			<source media="(min-width: 900px)" srcset={product.image.desktop} />
+			<img
+				class="rounded-lg border-2 {inCart ? 'border-red' : 'border-transparent'}"
+				src={product.image.mobile}
+				alt="{product.name} image"
+			/>
+		</picture>
+	</div>
+	{#if inCart}
+		<div
+			class="bg-red -mt-5 flex items-center justify-between gap-7 self-center rounded-full px-3 py-1"
+		>
+			<button onclick={() => removeFromCart(product.name)}>
+				<img
+					src="./assets/images/icon-decrement-quantity.svg"
+					alt=""
+					class="rounded-full border border-white px-1 py-2"
+				/>
+			</button>
+			<p class="text-white">{cartItem.quantity}</p>
+			<button onclick={() => addToCart(product.name)}>
+				<img
+					src="./assets/images/icon-increment-quantity.svg"
+					alt=""
+					class="rounded-full border border-white p-1"
+				/>
+			</button>
+		</div>
+	{:else}
+		<button
+			onclick={() => addToCart(product.name)}
+			class="-mt-5 flex gap-2 self-center rounded-full border bg-white px-3 py-1"
+		>
+			<img src="./assets/images/icon-add-to-cart.svg" alt="" />Add to cart</button
+		>
+	{/if}
+	<div>
+		<p>{product.category}</p>
+		<h2>{product.name}</h2>
+		<p>${product.price}</p>
+	</div>
+</div>
