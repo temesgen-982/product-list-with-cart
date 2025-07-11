@@ -2,6 +2,22 @@
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
+@font-face {
+	font-family: 'Red Hat Text';
+	src: url('/assets/fonts/static/RedHatText-Regular.ttf') format('truetype');
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Red Hat Text';
+	src: url('/assets/fonts/static/RedHatText-Bold.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
 @theme {
 	--color-red: hsl(14, 86%, 42%);
 	--color-green: hsl(159, 69%, 38%);
@@ -13,7 +29,7 @@
 	--color-rose-500: hsl(12, 20%, 44%);
 	--color-rose-900: hsl(14, 65%, 9%);
 
-	--font-base: 'Red Hat Text';
+	/* --font-sans: 'Red Hat Text'; */
 	--font-w-400: 400;
 	--font-w-600: 600;
 	--font-w-700: 700;

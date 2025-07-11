@@ -6,7 +6,7 @@
 	const total = $derived(cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0));
 </script>
 
-<div class="m-2 flex flex-col gap-2 rounded bg-white p-2">
+<div class="m-2 flex flex-col gap-2 rounded bg-white p-2 md:p-8">
 	<h1 class="text-red text-2xl">Your Cart ({cartItems.length})</h1>
 	{#if cartItems.length}
 		<div class="flex flex-col gap-2">

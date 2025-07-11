@@ -8,7 +8,7 @@
 	class="fixed top-0 right-0 left-0 flex h-screen w-screen items-end gap-2 rounded bg-black/60 md:items-center md:justify-center"
 >
 	<div
-		class="flex w-full flex-col gap-8 rounded-t-3xl bg-white px-4 py-8 md:w-auto md:rounded-t md:rounded-b"
+		class="flex w-full flex-col gap-8 rounded-t-3xl bg-white px-4 py-8 md:w-auto md:rounded-b-3xl"
 	>
 		<div><img src="/assets/images/icon-order-confirmed.svg" alt="Order confirmed" /></div>
 		<div class="flex flex-col gap-2">
