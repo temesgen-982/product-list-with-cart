@@ -1,9 +1,9 @@
 <script>
 	import CartItem from './CartItem.svelte';
-	let { cartItems, removeFromCart, showModal } = $props();
-	// let total = $derived(
-	// 	cartItems.reduce((sum: number, item) => sum += item.price * item.quantity, 0);
-	// );
+	import { cartItems } from '$lib/cart.svelte.js';
+
+	let { showModal } = $props();
+	const total = $derived(cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0));
 </script>
 
 <div class="m-2 flex flex-col gap-2 rounded bg-white p-2">
@@ -11,11 +11,12 @@
 	{#if cartItems.length}
 		<div class="flex flex-col gap-2">
 			{#each cartItems as cartItem (cartItem.name)}
-				<CartItem {cartItem} {removeFromCart} />
+				<CartItem {cartItem} />
 			{/each}
 		</div>
-		<div class="flex">
+		<div class="flex justify-between">
 			<h2>Order Total</h2>
+			<p class="text-2xl">{total.toFixed(2)}</p>
 		</div>
 		<div class="m-2 flex items-center bg-rose-50 p-2">
 			<img src="/assets/images/icon-carbon-neutral.svg" alt="carbon free" />

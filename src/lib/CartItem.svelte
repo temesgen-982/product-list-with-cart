@@ -1,5 +1,6 @@
 <script>
-	let { cartItem, removeFromCart } = $props();
+	import { removeFromCart } from '$lib/cart.svelte.js';
+	let { cartItem } = $props();
 </script>
 
 <div class="flex items-center justify-between border-b border-rose-200 py-2">

@@ -1,7 +1,10 @@
-<script>
-	let { product, addToCart, cartItem, removeFromCart, increment, decrement } = $props();
+<script lang="ts">
+	import type { Product as ProductType } from '$lib/cart.svelte.js';
+	let { product }: { product: ProductType } = $props();
 
-	// A derived value that's true if the item is in the cart
+	import { cartItems, addToCart, increment, decrement } from '$lib/cart.svelte.js';
+
+	const cartItem = $derived(cartItems.find((item) => item.name === product.name));
 	const inCart = $derived(!!cartItem);
 </script>
 
@@ -28,7 +31,7 @@
 					class="rounded-full border border-white px-1 py-2"
 				/>
 			</button>
-			<p class="text-white">{cartItem.quantity}</p>
+			<p class="text-white">{cartItem?.quantity}</p>
 			<button onclick={() => increment(product.name)}>
 				<img
 					src="./assets/images/icon-increment-quantity.svg"

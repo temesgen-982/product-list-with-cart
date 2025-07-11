@@ -1,6 +1,7 @@
 <script>
 	import OrderItem from './OrderItem.svelte';
-	let { closeModal, cartItems } = $props();
+	import { cartItems } from '$lib/cart.svelte.js';
+	let { closeModal } = $props();
 </script>
 
 <div
