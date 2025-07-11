@@ -1,5 +1,5 @@
 <script>
-	let { product, addToCart, cartItem, removeFromCart } = $props();
+	let { product, addToCart, cartItem, removeFromCart, increment, decrement } = $props();
 
 	// A derived value that's true if the item is in the cart
 	const inCart = $derived(!!cartItem);
@@ -21,7 +21,7 @@
 		<div
 			class="bg-red -mt-5 flex items-center justify-between gap-7 self-center rounded-full px-3 py-1"
 		>
-			<button onclick={() => removeFromCart(product.name)}>
+			<button onclick={() => decrement(product.name)}>
 				<img
 					src="./assets/images/icon-decrement-quantity.svg"
 					alt=""
@@ -29,7 +29,7 @@
 				/>
 			</button>
 			<p class="text-white">{cartItem.quantity}</p>
-			<button onclick={() => addToCart(product.name)}>
+			<button onclick={() => increment(product.name)}>
 				<img
 					src="./assets/images/icon-increment-quantity.svg"
 					alt=""
@@ -39,15 +39,15 @@
 		</div>
 	{:else}
 		<button
-			onclick={() => addToCart(product.name)}
-			class="-mt-5 flex gap-2 self-center rounded-full border bg-white px-3 py-1"
+			onclick={() => addToCart(product)}
+			class="-mt-5 flex gap-2 self-center rounded-full border border-rose-300 bg-white px-3 py-1"
 		>
 			<img src="./assets/images/icon-add-to-cart.svg" alt="" />Add to cart</button
 		>
 	{/if}
 	<div>
-		<p>{product.category}</p>
-		<h2>{product.name}</h2>
-		<p>${product.price}</p>
+		<p class="text-rose-400">{product.category}</p>
+		<h2 class="text-rose-900">{product.name}</h2>
+		<p class="text-red">${product.price}</p>
 	</div>
 </div>

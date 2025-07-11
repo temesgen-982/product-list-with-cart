@@ -2,42 +2,71 @@
 	import { onMount } from 'svelte';
 	import Products from '$lib/Products.svelte';
 	import Cart from '$lib/Cart.svelte';
+	import OrderDialog from '$lib/OrderDialog.svelte';
 
-	type cartItem = {
+	type CartItem = {
 		name: string;
 		price: number;
 		quantity: number;
+		thumbnail: string;
 	};
-	let products = $state([]);
-	let cartItems = $state<cartItem>([]);
 
-	// increment or add
-	function addToCart(productName: string) {
-		const existingItem = cartItems.find((item) => item.name == productName);
+	type Product = {
+		image: {
+			mobile: string;
+			tablet: string;
+			desktop: string;
+			thumbnail: string;
+		};
+		name: string;
+		category: string;
+		price: number;
+	};
 
-		if (existingItem) {
-			existingItem.quantity += 1;
-		} else {
-			cartItems.push({
-				name: productName,
-				price: 0,
-				quantity: 1
-			});
-		}
-		console.log($state.snapshot(cartItems.find((i) => i.name === productName)));
+	let products = $state<Product[]>([]);
+	let cartItems = $state<CartItem[]>([]);
+
+	// show order modal
+	let showOrderModal = $state(false);
+
+	function showModal() {
+		showOrderModal = !showOrderModal;
 	}
 
-	// decrement or remove
-	function removeFromCart(productName: string) {
-		const existingItem = cartItems.find((item) => item.name === productName);
+	function closeModal() {
+		showOrderModal = !showOrderModal;
+		cartItems = [];
+	}
 
-		if (!existingItem) return;
+	// add a product to the cart
+	function addToCart(product: Product) {
+		cartItems.push({
+			name: product.name,
+			price: product.price,
+			quantity: 1,
+			thumbnail: product.image.thumbnail
+		});
+	}
 
-		if (existingItem.quantity > 1) {
-			existingItem.quantity -= 1;
-		} else {
-			cartItems = cartItems.filter((item) => item.name !== productName);
+	// increment quantity
+	function increment(productName: string) {
+		const item = cartItems.find((item) => item.name === productName);
+		if (item) {
+			item.quantity += 1;
 		}
+	}
+
+	// decrements quantity. Does nothing if quantity is 1.
+	function decrement(productName: string) {
+		const item = cartItems.find((item) => item.name === productName);
+		if (item) {
+			item.quantity > 1 ? (item.quantity -= 1) : removeFromCart(productName);
+		}
+	}
+
+	// remove a product from the cart
+	function removeFromCart(productName: string) {
+		cartItems = cartItems.filter((item) => item.name !== productName);
 	}
 
 	onMount(async () => {
@@ -51,11 +80,14 @@
 	});
 </script>
 
-<main class="md:grid md:grid-cols-[3fr_1fr]">
+<main class="bg-rose-50 md:grid md:grid-cols-[5fr_2fr]">
 	{#if products.length > 0}
-		<Products {products} {addToCart} {cartItems} {removeFromCart} />
+		<Products {products} {addToCart} {cartItems} {increment} {decrement} {removeFromCart} />
 	{:else}
 		<p>Products are loading...</p>
 	{/if}
-	<Cart {cartItems} />
+	<Cart {cartItems} {removeFromCart} {showModal} />
+	{#if showOrderModal}
+		<OrderDialog {closeModal} {cartItems} />
+	{/if}
 </main>
