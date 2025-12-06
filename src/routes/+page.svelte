@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import Products from '$lib/Products.svelte';
 	import Cart from '$lib/Cart.svelte';
 	import OrderDialog from '$lib/OrderDialog.svelte';
@@ -7,6 +6,9 @@
 	import type { Product } from '$lib/cart.svelte.ts';
 
 	let products = $state<Product[]>([]);
+
+  let { data } = $props();
+  products = data.items;
 
 	import { cartItems } from '$lib/cart.svelte.js';
 
@@ -22,19 +24,10 @@
 		cartItems.length = 0; // clearing the cart
 	}
 
-	onMount(async () => {
-		try {
-			const response = await fetch('/data.json');
-			const data = await response.json();
-			products = data;
-		} catch (error) {
-			console.error('error fetching products : ', error);
-		}
-	});
 </script>
 
 <main class="bg-rose-50 md:grid md:grid-cols-[5fr_2fr]">
-	{#if products.length > 0}
+	{#if data.items.length > 0}
 		<Products {products} />
 	{:else}
 		<p>Products are loading...</p>
