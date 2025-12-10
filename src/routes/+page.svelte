@@ -21,7 +21,6 @@
 
 	function closeModal() {
 		showOrderModal = !showOrderModal;
-		cartItems.length = 0; // clearing the cart
 	}
 
 </script>

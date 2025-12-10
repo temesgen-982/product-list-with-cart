@@ -21,12 +21,18 @@ export const cartItems = $state<CartItem[]>([]);
 
 // add a product to the cart
 export function addToCart(product: Product) {
-	cartItems.push({
-		name: product.name,
-		price: product.price,
-		quantity: 1,
-		thumbnail: product.image.thumbnail
-	});
+    const existingItem = cartItems.find(item => item.name === product.name);
+
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cartItems.push({
+            name: product.name,
+            price: product.price,
+            quantity: 1,
+            thumbnail: product.image.thumbnail
+        });
+    }
 }
 
 // remove a product from the cart
@@ -55,4 +61,9 @@ export function decrement(productName: string) {
 			removeFromCart(productName);
 		}
 	}
+}
+
+// clear all products
+export function clearCart() {
+    cartItems.splice(0, cartItems.length);
 }
