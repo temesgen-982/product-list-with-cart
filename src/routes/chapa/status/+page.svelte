@@ -22,6 +22,10 @@
     {#if tx_ref}
         <p class="text-gray-600">Reference: {tx_ref}</p>
     {/if}
+
+    <a href="/" class="mt-6 rounded-full bg-red-600 px-6 py-2 text-white font-semibold hover:bg-red-700 transition-colors">
+        Go back to Home
+    </a>
     
     <p class="mt-8 text-sm text-gray-500">
         You may close this window, but please wait a moment for your order confirmation email.
