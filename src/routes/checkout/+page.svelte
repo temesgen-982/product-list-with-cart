@@ -17,7 +17,7 @@
         errorMessage = null;
 
         const paymentData = {
-            amount: total.toFixed(2),
+            items: cartItems.map(item => ({ name: item.name, quantity: item.quantity })),
             email,
             firstName,
             lastName,

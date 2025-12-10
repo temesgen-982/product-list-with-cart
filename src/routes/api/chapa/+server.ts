@@ -1,15 +1,34 @@
 import { CHAPA_SECRET_KEY, CHAPA_RETURN_URL } from '$env/static/private';
 import { json } from '@sveltejs/kit';
 import { saveTransaction } from '$lib/server/store';
+import productData from '$lib/data/data.json';
 
 export async function POST({ request }) {
   const clientData = await request.json();
   const tx_ref = `tx-${Date.now()}`;
 
+  // Calculate total amount server-side
+  let calculatedTotal = 0;
+  const items = clientData.items || [];
+
+  for (const item of items) {
+    const product = productData.find(p => p.name === item.name);
+    if (product && item.quantity > 0) {
+      calculatedTotal += product.price * item.quantity;
+    }
+  }
+
+  // Ensure we have a valid amount
+  if (calculatedTotal <= 0) {
+    return json({ error: 'Invalid order amount' }, { status: 400 });
+  }
+
+  const amount = calculatedTotal.toFixed(2);
+
   // Save to in-memory store
   saveTransaction({
     tx_ref,
-    amount: parseFloat(clientData.amount),
+    amount: calculatedTotal,
     currency: 'ETB',
     email: clientData.email,
     firstName: clientData.firstName,
@@ -20,7 +39,7 @@ export async function POST({ request }) {
   });
 
   const raw = JSON.stringify({
-    "amount": clientData.amount,
+    "amount": amount,
     "currency": "ETB",
     "email": clientData.email,
     "first_name": clientData.firstName,
