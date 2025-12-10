@@ -1,7 +1,15 @@
 <script>
 	import OrderItem from './OrderItem.svelte';
 	import { cartItems } from '$lib/cart.svelte.js';
+    import { goto } from '$app/navigation';
+
 	let { closeModal } = $props();
+    const total = $derived(cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0));
+
+    function proceedToCheckout() {
+        closeModal();
+        goto('/checkout');
+    }
 </script>
 
 <div
@@ -23,6 +31,13 @@
 			</div>
 			<div></div>
 		</div>
-		<button onclick={closeModal} class="bg-red rounded-full p-2 text-white">Start New Order</button>
+        <button 
+            onclick={proceedToCheckout} 
+            disabled={total <= 0}
+            class="bg-red rounded-full p-2 text-white"
+        >
+            Continue to payment {total.toFixed(2)} ETB
+        </button>
+        <button onclick={closeModal} class="text-sm text-gray-500 mt-2">Cancel Order</button>
 	</div>
 </div>
