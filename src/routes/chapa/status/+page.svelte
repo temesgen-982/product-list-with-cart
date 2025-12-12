@@ -1,7 +1,7 @@
 <script>
     import { page } from '$app/state';
 
-    const status = page.url.searchParams.get('chapa_status'); 
+    const status = page.url.searchParams.get('payment'); 
     const tx_ref = page.url.searchParams.get('tx_ref');
 
     let message = $state('Checking transaction status...');
